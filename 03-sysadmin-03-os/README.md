@@ -48,11 +48,11 @@
    > [screenshoot](https://i.ibb.co/s1t481C/Screenshot-from-2022-11-09-00-16-21.png)
 
 1. Какой системный вызов использует `uname -a`? Приведите цитату из man по этому системному вызову, где описывается альтернативное местоположение в `/proc`, где можно узнать версию ядра и релиз ОС.
-   > `strace uname -a 2>&1 | grep uname`
+   > `strace uname -a 2>&1 | grep uname`  
    > используется системный вызов `uname({sysname="Linux", nodename="ubuntu-focal", ...}) = 0` 
    >  
-   > `man 2 uname 2>&1 | grep /proc`
-   > `Part of the utsname information is also accessible via /proc/sys/kernel/{ostype, hostname, osrelease, version, domainname}.`
+   > `man 2 uname 2>&1 | grep /proc`  
+   > `Part of the utsname information is also accessible via /proc/sys/kernel/{ostype, hostname, osrelease, version, domainname}.`  
 
 
 1. Чем отличается последовательность команд через `;` и через `&&` в bash? Например:
