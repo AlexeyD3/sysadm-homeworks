@@ -55,23 +55,23 @@ WantedBy=multi-user.target
 
 1. Ознакомьтесь с опциями node_exporter и выводом `/metrics` по-умолчанию. Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
 
->    CPU:
->       `node_cpu_second_total`
->    
-> Memory:
->       `node_memory_MemTotal_bytes`
->       `node_memory_MemFree_bytes`
->       `node_memory_Cached_bytes`
->       `node_memory_Buffers_bytes`
->
->   Disk:
->       `node_filesystem_size_bytes`
->       `node_filesystem_avail_bytes`
->       `node_filesystem_free_bytes`
->       `node_disk_read_bytes_total`
->       `node_disk_written_bytes_total`
->Network:
->       `node_network_receive_bytes_total`
+>    CPU:  
+>       `node_cpu_second_total`  
+>  
+> Memory:  
+>       `node_memory_MemTotal_bytes`  
+>       `node_memory_MemFree_bytes`  
+>       `node_memory_Cached_bytes`  
+>       `node_memory_Buffers_bytes`  
+>  
+>   Disk:  
+>       `node_filesystem_size_bytes`  
+>       `node_filesystem_avail_bytes`  
+>       `node_filesystem_free_bytes`  
+>       `node_disk_read_bytes_total`  
+>       `node_disk_written_bytes_total`  
+>Network:  
+>       `node_network_receive_bytes_total`  
 >       `node_network_transmit_bytes_total`  
    
 
