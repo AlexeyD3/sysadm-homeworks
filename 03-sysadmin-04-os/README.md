@@ -6,7 +6,8 @@
     * предусмотрите возможность добавления опций к запускаемому процессу через внешний файл (посмотрите, например, на `systemctl cat cron`),
     * удостоверьтесь, что с помощью systemctl процесс корректно стартует, завершается, а после перезагрузки автоматически поднимается.  
   
-    > Создал unit файл, пользователя и группу для node_exporter, запустил и командой `sudo systemctl enable node_exporter` добавил в автозагрузку  
+  
+> Создал unit-файл, пользователя и группу для node_exporter, поместил в `usr/local/bin` запустил и командой `sudo systemctl enable node_exporter` добавил в автозагрузку  
   
 ```bash 
 sudo systemctl status node_exporter
@@ -48,8 +49,8 @@ Restart=always
 WantedBy=multi-user.target
 ```  
   
-    > в `Vagrantfile` добавил строку `config.vm.network "forwarded_port", guest: 9100, host: 9109, host_ip: "127.0.0.1", auto_correct: true`  
-    > `vagrant reload`, виртуальная машина перезапущена, порты проброшены, работу `node_exporter` (а так же его автозагрузку) и доступность метрик проверил прямо на хостовой машине по адресу `localhost:9109/metrics`  
+> в `Vagrantfile` добавил строку `config.vm.network "forwarded_port", guest: 9100, host: 9109, host_ip: "127.0.0.1", auto_correct: true`  
+> `vagrant reload`, виртуальная машина перезапущена, порты проброшены, работу `node_exporter` (а так же его автозагрузку) и доступность метрик проверил прямо на хостовой машине по адресу `localhost:9109/metrics`  
    
 
 1. Ознакомьтесь с опциями node_exporter и выводом `/metrics` по-умолчанию. Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
