@@ -5,9 +5,9 @@
     * поместите его в автозагрузку,
     * предусмотрите возможность добавления опций к запускаемому процессу через внешний файл (посмотрите, например, на `systemctl cat cron`),
     * удостоверьтесь, что с помощью systemctl процесс корректно стартует, завершается, а после перезагрузки автоматически поднимается.
-
-    > Создал unit файл, пользователя и группу для node_exporter
-    ```bash 
+  
+    > Создал unit файл, пользователя и группу для node_exporter  
+```bash 
     sudo systemctl status node_exporter
 ● node_exporter.service - Prometheus Node Exporter
      Loaded: loaded (/etc/systemd/system/node_exporter.service; enabled; vendor preset: enabled)
@@ -28,7 +28,7 @@ Nov 15 12:58:54 ubuntu-focal node_exporter[619]: ts=2022-11-15T12:58:54.854Z cal
 Nov 15 12:58:54 ubuntu-focal node_exporter[619]: ts=2022-11-15T12:58:54.854Z caller=node_exporter.go:115 level=info collector=zfs
 Nov 15 12:58:54 ubuntu-focal node_exporter[619]: ts=2022-11-15T12:58:54.854Z caller=node_exporter.go:199 level=info msg="Listening on" address=:9100
 Nov 15 12:58:54 ubuntu-focal node_exporter[619]: ts=2022-11-15T12:58:54.856Z caller=tls_config.go:195 level=info msg="TLS is disabled." http2=false
-     ```
+```  
 
 1. Ознакомьтесь с опциями node_exporter и выводом `/metrics` по-умолчанию. Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
 1. Установите в свою виртуальную машину [Netdata](https://github.com/netdata/netdata). Воспользуйтесь [готовыми пакетами](https://packagecloud.io/netdata/netdata/install) для установки (`sudo apt install -y netdata`). После успешной установки:
