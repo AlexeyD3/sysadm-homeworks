@@ -6,7 +6,9 @@
     * предусмотрите возможность добавления опций к запускаемому процессу через внешний файл (посмотрите, например, на `systemctl cat cron`),
     * удостоверьтесь, что с помощью systemctl процесс корректно стартует, завершается, а после перезагрузки автоматически поднимается.
 
-    > ```sudo systemctl status node_exporter
+    > Создал unit файл, пользователя и группу для node_exporter
+    ```bash 
+    sudo systemctl status node_exporter
 ● node_exporter.service - Prometheus Node Exporter
      Loaded: loaded (/etc/systemd/system/node_exporter.service; enabled; vendor preset: enabled)
      Active: active (running) since Tue 2022-11-15 12:58:54 UTC; 46s ago
