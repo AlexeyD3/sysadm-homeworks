@@ -102,7 +102,7 @@ vagrant@ubuntu-focal:~/netology$ dmesg | grep -i Virtual
   
 1. Как настроен sysctl `fs.nr_open` на системе по-умолчанию? Узнайте, что означает этот параметр. Какой другой существующий лимит не позволит достичь такого числа (`ulimit --help`)?  
 ```bash
-sudo sysctl -a 2>&1 | grep fs.nr_open
+sudo sysctl -a | grep fs.nr_open
 fs.nr_open = 1048576
 ```
 > этот параметр (по умолчанию 1048576) ограничивает лимит открытых файлов для каждого процесса (изменить с сохранением даже при перезагрузке мы можем в `/etc/sysctl.conf fs.file-max=<число>`)
