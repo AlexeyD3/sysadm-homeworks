@@ -6,9 +6,9 @@
     * предусмотрите возможность добавления опций к запускаемому процессу через внешний файл (посмотрите, например, на `systemctl cat cron`),
     * удостоверьтесь, что с помощью systemctl процесс корректно стартует, завершается, а после перезагрузки автоматически поднимается.
   
-    > Создал unit файл, пользователя и группу для node_exporter  
+    > Создал unit файл, пользователя и группу для node_exporter, запустил и командой `sudo systemctl enable node_exporter` добавил в автозагрузку  
 ```bash 
-    sudo systemctl status node_exporter
+sudo systemctl status node_exporter
 ● node_exporter.service - Prometheus Node Exporter
      Loaded: loaded (/etc/systemd/system/node_exporter.service; enabled; vendor preset: enabled)
      Active: active (running) since Tue 2022-11-15 12:58:54 UTC; 46s ago
@@ -29,6 +29,26 @@ Nov 15 12:58:54 ubuntu-focal node_exporter[619]: ts=2022-11-15T12:58:54.854Z cal
 Nov 15 12:58:54 ubuntu-focal node_exporter[619]: ts=2022-11-15T12:58:54.854Z caller=node_exporter.go:199 level=info msg="Listening on" address=:9100
 Nov 15 12:58:54 ubuntu-focal node_exporter[619]: ts=2022-11-15T12:58:54.856Z caller=tls_config.go:195 level=info msg="TLS is disabled." http2=false
 ```  
+
+    > содержимое unit-файла:
+```bash
+[Unit]
+Description=Prometheus Node Exporter
+Wants=network-online.target
+After=network-online.target
+[Service]
+User=node_exporter
+Group=node_exporter
+Type=simple
+ExecStart=/usr/local/bin/node_exporter
+Restart=always
+[Install]
+WantedBy=multi-user.target
+```  
+  
+    > в `Vagrantfile` добавил строку `config.vm.network "forwarded_port", guest: 9100, host: 9109, host_ip: "127.0.0.1", auto_correct: true`  
+    > `vagrant reload`, виртуальная машина перезапущена, порты проброшены, работу `node_exporter` (а так же его автозагрузку) и доступность метрик проверил прямо на хостовой машине по адресу `localhost:9109/metrics`
+ 
 
 1. Ознакомьтесь с опциями node_exporter и выводом `/metrics` по-умолчанию. Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
 1. Установите в свою виртуальную машину [Netdata](https://github.com/netdata/netdata). Воспользуйтесь [готовыми пакетами](https://packagecloud.io/netdata/netdata/install) для установки (`sudo apt install -y netdata`). После успешной установки:
