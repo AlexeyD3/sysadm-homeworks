@@ -6,6 +6,28 @@
     * предусмотрите возможность добавления опций к запускаемому процессу через внешний файл (посмотрите, например, на `systemctl cat cron`),
     * удостоверьтесь, что с помощью systemctl процесс корректно стартует, завершается, а после перезагрузки автоматически поднимается.
 
+    > ```sudo systemctl status node_exporter
+● node_exporter.service - Prometheus Node Exporter
+     Loaded: loaded (/etc/systemd/system/node_exporter.service; enabled; vendor preset: enabled)
+     Active: active (running) since Tue 2022-11-15 12:58:54 UTC; 46s ago
+   Main PID: 619 (node_exporter)
+      Tasks: 4 (limit: 1131)
+     Memory: 14.5M
+     CGroup: /system.slice/node_exporter.service
+             └─619 /usr/local/bin/node_exporter
+
+Nov 15 12:58:54 ubuntu-focal node_exporter[619]: ts=2022-11-15T12:58:54.854Z caller=node_exporter.go:115 level=info collector=thermal_zone
+Nov 15 12:58:54 ubuntu-focal node_exporter[619]: ts=2022-11-15T12:58:54.854Z caller=node_exporter.go:115 level=info collector=time
+Nov 15 12:58:54 ubuntu-focal node_exporter[619]: ts=2022-11-15T12:58:54.854Z caller=node_exporter.go:115 level=info collector=timex
+Nov 15 12:58:54 ubuntu-focal node_exporter[619]: ts=2022-11-15T12:58:54.854Z caller=node_exporter.go:115 level=info collector=udp_queues
+Nov 15 12:58:54 ubuntu-focal node_exporter[619]: ts=2022-11-15T12:58:54.854Z caller=node_exporter.go:115 level=info collector=uname
+Nov 15 12:58:54 ubuntu-focal node_exporter[619]: ts=2022-11-15T12:58:54.854Z caller=node_exporter.go:115 level=info collector=vmstat
+Nov 15 12:58:54 ubuntu-focal node_exporter[619]: ts=2022-11-15T12:58:54.854Z caller=node_exporter.go:115 level=info collector=xfs
+Nov 15 12:58:54 ubuntu-focal node_exporter[619]: ts=2022-11-15T12:58:54.854Z caller=node_exporter.go:115 level=info collector=zfs
+Nov 15 12:58:54 ubuntu-focal node_exporter[619]: ts=2022-11-15T12:58:54.854Z caller=node_exporter.go:199 level=info msg="Listening on" address=:9100
+Nov 15 12:58:54 ubuntu-focal node_exporter[619]: ts=2022-11-15T12:58:54.856Z caller=tls_config.go:195 level=info msg="TLS is disabled." http2=false
+     ```
+
 1. Ознакомьтесь с опциями node_exporter и выводом `/metrics` по-умолчанию. Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
 1. Установите в свою виртуальную машину [Netdata](https://github.com/netdata/netdata). Воспользуйтесь [готовыми пакетами](https://packagecloud.io/netdata/netdata/install) для установки (`sudo apt install -y netdata`). После успешной установки:
     * в конфигурационном файле `/etc/netdata/netdata.conf` в секции [web] замените значение с localhost на `bind to = 0.0.0.0`,
