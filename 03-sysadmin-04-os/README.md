@@ -73,7 +73,7 @@ WantedBy=multi-user.target
 >Network:
 >       `node_network_receive_bytes_total`
 >       `node_network_transmit_bytes_total`  
-  
+   
 
 1. Установите в свою виртуальную машину [Netdata](https://github.com/netdata/netdata). Воспользуйтесь [готовыми пакетами](https://packagecloud.io/netdata/netdata/install) для установки (`sudo apt install -y netdata`). После успешной установки:
     * в конфигурационном файле `/etc/netdata/netdata.conf` в секции [web] замените значение с localhost на `bind to = 0.0.0.0`,
