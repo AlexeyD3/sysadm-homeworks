@@ -52,6 +52,11 @@ Restart=always
 WantedBy=multi-user.target
 ```  
   
+> содержимое `EnvironmentFile=-/etc/default/node_exporter`
+```bash
+OPTIONS="--collector.disable-defaults --collector.netstat --collector.meminfo --collector.cpu --collector.filesystem"
+```  
+  
 > в `Vagrantfile` добавил строку `config.vm.network "forwarded_port", guest: 9100, host: 9109, host_ip: "127.0.0.1", auto_correct: true`  
 > `vagrant reload`, виртуальная машина перезапущена, порты проброшены, работу `node_exporter` (а так же его автозагрузку) и доступность метрик проверил прямо на хостовой машине по адресу `localhost:9109/metrics`  
    
