@@ -39,12 +39,15 @@ Nov 15 12:58:54 ubuntu-focal node_exporter[619]: ts=2022-11-15T12:58:54.856Z cal
 Description=Prometheus Node Exporter
 Wants=network-online.target
 After=network-online.target
+
 [Service]
+EnvironmentFile=-/etc/default/node_exporter
 User=node_exporter
 Group=node_exporter
 Type=simple
-ExecStart=/usr/local/bin/node_exporter
+ExecStart=/usr/local/bin/node_exporter $OPTIONS
 Restart=always
+
 [Install]
 WantedBy=multi-user.target
 ```  
