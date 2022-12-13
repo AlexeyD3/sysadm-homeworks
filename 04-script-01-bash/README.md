@@ -136,8 +136,34 @@ done
 
 ### Ваш скрипт:
 ```bash
-???
+#!/usr/bin/env bash
+
+ip_list=(173.194.222.113 192.168.0.1 87.250.250.242)
+port=':80'
+request='curl -sm 1 http://'
+logfile_name='5curl.log'
+errorfile_name='error.log'
+while ((1==1))
+do
+    for ip in ${ip_list[@]}
+    do
+          $request$ip$port >/dev/null
+          if (($? != 0))
+          then
+              echo -n $ip$port "DOWN " >> $errorfile_name
+              date >> $errorfile_name
+              exit
+
+          else
+              echo -n $ip$port "UP " >> $logfile_name
+              date >> $logfile_name
+
+          fi
+    done
+done
+
 ```
+Если я правильно понял, то теперь мы делаем не 5 циклов проверки, а непрерывную проверку, пока один из сервисов не окажется недоступным, поэтому заменил цикл `for` на `while`
 
 ---
 
