@@ -74,6 +74,7 @@ do
         fi
 done
 ```
+Добавил недостающую скобку, задержку проверки доступности командой `sleep 1` и команду `exit` прерывания скрипта при доступности сервиса.
 
 ---
 
@@ -83,7 +84,30 @@ done
 
 ### Ваш скрипт:
 ```bash
-???
+#!/usr/bin/env bash
+
+ip_list=(192.168.0.1 173.194.222.113 87.250.250.242)
+port=':80'
+request='curl -sm 1 http://'
+logfile_name='5curl.log'
+for step in {1..5}
+do
+    for ip in ${ip_list[@]}
+    do
+          $request$ip$port >/dev/null
+          if (($? != 0))
+          then
+              status="DOWN "
+
+          else
+              status="UP "
+
+          fi
+          echo -n $ip$port "$status" >> $logfile_name
+          date >> $logfile_name
+    done
+done
+
 ```
 
 ---
