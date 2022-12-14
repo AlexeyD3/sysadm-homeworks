@@ -108,6 +108,9 @@ for result in result_os.split('\n'):
 
     if result.find("can't cd to") != -1:
         print("\033[31m{}".format('error: wrong argument, check path'))
+
+    if result.find('fatal') != -1:
+        print("\033[31m{}".format('error: .git repository is not found in this directory'))
 ```
 
 ### Вывод скрипта при запуске при тестировании:
