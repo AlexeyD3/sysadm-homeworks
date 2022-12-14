@@ -173,8 +173,25 @@ done
 
 ### Ваш скрипт:
 ```bash
-???
+#!/usr/bin/env bash
+
+over50=$(grep -E -m 1 '.{50}' "$1")
+commit_RegEx='^\[[0-9][0-9]-[a-z]*-[0-9][0-9]-[a-z]*\] '
+
+if [ -n "$over50" ]
+then
+    echo -e "\033[91merror: commit message over 50 characters\033[0m"
+    exit 1
+
+elif ! grep -E "$commit_RegEx" "$1"
+then
+    echo -e "\033[91merror: start the commit message according to the template. \033[92mExample: [01-script-04-bash] >
+    exit 1
+fi
+
 ```
+![вывод в терминале](https://i.ibb.co/hLhkKng/Screenshot-from-2022-12-14-14-52-28.png "лог")
+
 
 ----
 
