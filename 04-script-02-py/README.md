@@ -62,13 +62,23 @@ for result in result_os.split('\n'):
 
 ### Ваш скрипт:
 ```python
-???
+#!/usr/bin/env python3
+
+import os
+
+cdpath = os.getcwd()
+bash_command = ["cd "+cdpath, "git status"]
+result_os = os.popen(' && '.join(bash_command)).read()
+
+for result in result_os.split('\n'):
+    if result.find('modified') != -1:
+        prepare_result = result.replace('\tmodified:   ', '/')
+        print(cdpath+prepare_result)
+
 ```
 
 ### Вывод скрипта при запуске при тестировании:
-```
-???
-```
+![вывод](https://i.ibb.co/VpF3q9j/Screenshot-from-2022-12-14-20-36-42.png)
 
 ------
 
