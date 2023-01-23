@@ -133,13 +133,27 @@ for result in result_os.split('\n'):
 
 ### Ваш скрипт:
 ```python
-???
+#!/usr/bin/env python3
+import time
+import socket
+
+#host_dns_list = ['yandex.ru', 'mail.ru', 'mail.yandex.ru'] брал yandex так как гугл не менял IP
+host_dns_list = ['drive.google.com', 'mail.google.com', 'google.com']
+dict_ip = {}
+dict_old_ip = {}
+while True: # бесконечный цикл проверки
+    for host_dns in host_dns_list:
+        dict_ip.update({host_dns: socket.gethostbyname(host_dns)})
+        if len(dict_old_ip.get(host_dns, 'none')) > 4:
+            if dict_old_ip.get(host_dns) != dict_ip.get(host_dns):
+                print("[ERROR] <"+host_dns+"> IP mismatch: <"+dict_old_ip.get(host_dns)+"> <"+dict_ip.get(host_dns)+">")
+        dict_old_ip = dict_ip.copy()
+        print("<"+host_dns+"> - <"+dict_ip.get(host_dns)+">")
+    time.sleep(2) # задержка между циклами проверки
 ```
 
 ### Вывод скрипта при запуске при тестировании:
-```
-???
-```
+![вывод](https://i.ibb.co/K9WGyMc/Screenshot-from-2023-01-23-14-48-35.png)
 
 ------
 
