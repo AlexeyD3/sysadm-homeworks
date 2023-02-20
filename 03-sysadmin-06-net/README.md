@@ -41,6 +41,15 @@ HOST: stackoverflow.com
 ```
 *В ответе укажите полученный HTTP код, что он означает?*
 
+```bash
+403 стандартный код ответа HTTP, означающий, что доступ к запрошенному ресурсу запрещен. Сервер понял запрос, но не выполнит его.
+попробовал:
+telnet ya.ru 80
+GET /questions HTTP/1.0
+HOST: ya.ru
+302 код перенаправления, в нашем случае на http/1.1 (https)
+```
+
 2. Повторите задание 1 в браузере, используя консоль разработчика F12.
 - откройте вкладку `Network`
 - отправьте запрос http://stackoverflow.com
@@ -49,12 +58,126 @@ HOST: stackoverflow.com
 - проверьте время загрузки страницы, какой запрос обрабатывался дольше всего?
 - приложите скриншот консоли браузера в ответ.
 
+```bash
+на http//:stackoverflow.com полученный код 307 iternal redirect
+время загрузки страницы 757ms
+дольше всего обрабатывался запрос GET stackoverflow.com (по https) начальная загрузка страницы.
+```
+
+[screenshot](https://i.ibb.co/HTMYQNV/Screenshot-from-2023-02-20-23-32-18.png)
+
 3. Какой IP адрес у вас в интернете?
+```bash
+wolin@wolinubuntu:~$ curl ifconfig.me
+217.70.18.26 
+```
 4. Какому провайдеру принадлежит ваш IP адрес? Какой автономной системе AS? Воспользуйтесь утилитой `whois`
+```bash
+wolin@wolinubuntu:~$ whois -h whois.radb.net 217.70.18.26
+route:          217.70.16.0/20
+descr:          Informational-measuring systems    #провайдер
+notify:         admin@imsys.ru
+origin:         AS29319                            #автономная система
+mnt-by:         IMSYS-MNT
+created:        2003-07-31T10:37:35Z
+last-modified:  2004-03-18T12:09:59Z
+source:         RIPE
+remarks:        ****************************
+remarks:        * THIS OBJECT IS MODIFIED
+remarks:        * Please note that all data that is generally regarded as personal
+remarks:        * data has been removed from this object.
+remarks:        * To view the original object, please query the RIPE Database at:
+remarks:        * http://www.ripe.net/whois
+remarks:        ****************************
+
+```
+
 5. Через какие сети проходит пакет, отправленный с вашего компьютера на адрес 8.8.8.8? Через какие AS? Воспользуйтесь утилитой `traceroute`
+```bash
+wolin@wolinubuntu:~$ traceroute -An 8.8.8.8
+traceroute to 8.8.8.8 (8.8.8.8), 30 hops max, 60 byte packets
+ 1  * * *
+ 2  * * *
+ 3  * * *
+ 4  * * *
+ 5  195.208.208.250 [AS5480]  8.463 ms  8.451 ms  8.412 ms
+ 6  108.170.250.51 [AS15169]  8.380 ms 108.170.250.83 [AS15169]  4.510 ms 108.170.250.130 [AS15169]  4.477 ms
+ 7  142.250.238.214 [AS15169]  22.330 ms 72.14.234.20 [AS15169]  19.121 ms 142.251.49.78 [AS15169]  23.565 ms
+ 8  142.251.237.142 [AS15169]  23.546 ms 142.250.233.0 [AS15169]  30.250 ms 209.85.254.6 [AS15169]  27.406 ms
+ 9  142.250.56.15 [AS15169]  24.304 ms 216.239.42.21 [AS15169]  25.759 ms 172.253.79.237 [AS15169]  80.946 ms
+10  * * *
+11  * * *
+12  * * *
+13  * * *
+14  * * *
+15  * * *
+16  * * *
+17  * * *
+18  * * *
+19  8.8.8.8 [AS15169/AS263411]  21.432 ms  23.379 ms  21.316 ms
+```
+```bash
+wolin@wolinubuntu:~$ grep descr <(whois -h whois.radb.net AS5480)
+descr:          Network of educational, scientific and
+descr:          other non-profit organizations of Southern Russia.
+descr:          Maintained by Southern Russia regional informatization
+descr:          center of Southern federal university
+descr:          Rostov-on-Don, Russia
+
+wolin@wolinubuntu:~$ grep descr <(whois -h whois.radb.net AS15169)
+descr:      Google, Inc
+
+wolin@wolinubuntu:~$ grep descr <(whois -h whois.radb.net AS263411)
+descr:      ONIX TELECOM
+```
+
 6. Повторите задание 5 в утилите `mtr`. На каком участке наибольшая задержка - delay?
+
+на 9-ом:
+```bash
+wolin@wolinubuntu:~$ mtr 8.8.8.8 -znrc 1
+Start: 2023-02-21T00:11:01+0300
+
+HOST: wolinubuntu                 Loss%   Snt   Last   Avg  Best  Wrst StDev
+  1. AS???    192.168.1.1          0.0%     1    2.0   2.0   2.0   2.0   0.0
+  2. AS???    10.53.33.1           0.0%     1    6.3   6.3   6.3   6.3   0.0
+  3. AS???    10.40.0.4            0.0%     1    4.7   4.7   4.7   4.7   0.0
+  4. AS29319  217.70.31.65         0.0%     1    3.4   3.4   3.4   3.4   0.0
+  5. AS???    195.208.208.250      0.0%     1    5.3   5.3   5.3   5.3   0.0
+  6. AS15169  108.170.250.83       0.0%     1    4.6   4.6   4.6   4.6   0.0
+  7. AS15169  142.250.239.64       0.0%     1   19.8  19.8  19.8  19.8   0.0
+  8. AS15169  172.253.66.110       0.0%     1   21.5  21.5  21.5  21.5   0.0
+  9. AS15169  72.14.237.199        0.0%     1   24.2  24.2  24.2  24.2   0.0      #наибольшая задержка
+ 10. AS???    ???                 100.0     1    0.0   0.0   0.0   0.0   0.0
+ 11. AS???    ???                 100.0     1    0.0   0.0   0.0   0.0   0.0
+ 12. AS???    ???                 100.0     1    0.0   0.0   0.0   0.0   0.0
+ 13. AS???    ???                 100.0     1    0.0   0.0   0.0   0.0   0.0
+ 14. AS???    ???                 100.0     1    0.0   0.0   0.0   0.0   0.0
+ 15. AS???    ???                 100.0     1    0.0   0.0   0.0   0.0   0.0
+ 16. AS???    ???                 100.0     1    0.0   0.0   0.0   0.0   0.0
+ 17. AS???    ???                 100.0     1    0.0   0.0   0.0   0.0   0.0
+ 18. AS???    ???                 100.0     1    0.0   0.0   0.0   0.0   0.0
+ 19. AS15169  8.8.8.8              0.0%     1   22.5  22.5  22.5  22.5   0.0
+```
+
 7. Какие DNS сервера отвечают за доменное имя dns.google? Какие A записи? Воспользуйтесь утилитой `dig`
+```bash
+wolin@wolinubuntu:~$ dig +short NS dns.google
+ns4.zdns.google.
+ns1.zdns.google.
+ns2.zdns.google.
+ns3.zdns.google.
+wolin@wolinubuntu:~$ dig +short A dns.google
+8.8.8.8
+8.8.4.4
+```
+
 8. Проверьте PTR записи для IP адресов из задания 7. Какое доменное имя привязано к IP? Воспользуйтесь утилитой `dig`
+```bash
+wolin@wolinubuntu:~$ for ip in `dig +short A dns.google`; do dig -x $ip | grep ^[0-9].*in-addr; done
+4.4.8.8.in-addr.arpa.	7137	IN	PTR	dns.google.
+8.8.8.8.in-addr.arpa.	6590	IN	PTR	dns.google.
+```
 
 *В качестве ответов на вопросы приложите лог выполнения команд в консоли или скриншот полученных результатов.*
 
