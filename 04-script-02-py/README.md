@@ -248,7 +248,6 @@ cur_time = datetime.now()
 branch_name = f"""{datetime.strftime(cur_time, "%Y-%m-%d_%H%M%S")}-config-local-edit"""
 date_commit_text = datetime.strftime(cur_time, "%Y-%m-%d %H:%M:%S")
 
-# exit()
 if len(git_status) > 1 or git_status[0] != '':
     git_exec(f"git checkout -b {branch_name}")
     git_exec(f"git add .")
