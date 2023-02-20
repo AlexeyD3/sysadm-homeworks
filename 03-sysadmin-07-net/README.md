@@ -25,18 +25,88 @@
 ## Задание
 
 1. Проверьте список доступных сетевых интерфейсов на вашем компьютере. Какие команды есть для этого в Linux и в Windows?
+```bash
+wolin@wolinubuntu:~$ ip link show
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: enp4s0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc mq state DOWN mode DEFAULT group default qlen 1000
+    link/ether 44:8a:5b:ef:aa:1a brd ff:ff:ff:ff:ff:ff
+3: wlp5s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DORMANT group default qlen 1000
+    link/ether 40:e2:30:0e:06:15 brd ff:ff:ff:ff:ff:ff
+wolin@wolinubuntu:~$ ifconfig -a
+enp4s0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        ether 44:8a:5b:ef:aa:1a  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+        device interrupt 19  
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 108362  bytes 7429442 (7.4 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 108362  bytes 7429442 (7.4 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+wlp5s0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.1.118  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 fe80::2cb4:bcb8:eef6:7d8b  prefixlen 64  scopeid 0x20<link>
+        ether 40:e2:30:0e:06:15  txqueuelen 1000  (Ethernet)
+        RX packets 1668957  bytes 1855636822 (1.8 GB)
+        RX errors 0  dropped 3398  overruns 0  frame 0
+        TX packets 649577  bytes 124645778 (124.6 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+```
+Для виндовс: ipconfig
 
 2. Какой протокол используется для распознавания соседа по сетевому интерфейсу? Какой пакет и команды есть в Linux для этого?
+```bash
+wolin@wolinubuntu:~$ lldpctl
+-------------------------------------------------------------------------------
+LLDP neighbors:
+-------------------------------------------------------------------------------
+```
 
 3. Какая технология используется для разделения L2 коммутатора на несколько виртуальных сетей? Какой пакет и команды есть в Linux для этого? Приведите пример конфига.
 
+Virtual LAN
+vlan
+пример конфига:
+```bash
+network:
+  ethernets:
+    enp1s0:
+      dhcp4: false
+      addresses:
+        - 192.168.122.201/24
+      gateway4: 192.168.122.1
+      nameservers:
+          addresses: [8.8.8.8, 1.1.1.1]
+    vlans:
+        enp1s0.100:
+            id: 100
+            link: enp1s0
+            addresses: [192.168.100.2/24]
+```
+
 4. Какие типы агрегации интерфейсов есть в Linux? Какие опции есть для балансировки нагрузки? Приведите пример конфига.
+```bash
+```
 
 5. Сколько IP адресов в сети с маской /29 ? Сколько /29 подсетей можно получить из сети с маской /24. Приведите несколько примеров /29 подсетей внутри сети 10.10.10.0/24.
+```bash
+```
 
 6. Задача: вас попросили организовать стык между 2-мя организациями. Диапазоны 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 уже заняты. Из какой подсети допустимо взять частные IP адреса? Маску выберите из расчета максимум 40-50 хостов внутри подсети.
+```bash
+```
 
 7. Как проверить ARP таблицу в Linux, Windows? Как очистить ARP кеш полностью? Как из ARP таблицы удалить только один нужный IP?
+```bash
+```
 
 *В качестве решения ответьте на вопросы и опишите, каким образом эти ответы были получены*
 
