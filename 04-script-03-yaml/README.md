@@ -84,6 +84,7 @@ while True: # бесконечный цикл проверки
         if len(dict_old_ip.get(host_dns, 'none')) > 4:
             if dict_old_ip.get(host_dns) != dict_ip.get(host_dns):
                 
+                #скрипт обратиться для записи в файл только в случае первичной записи dns : ip или несовпадения ip из предыдушей проверки
                 with open("servers_ip.json", "w") as log_json:
                     json.dump(dict_ip, log_json, indent=2)
                 with open("servers_ip.yaml", "w") as log_yaml:
@@ -99,17 +100,39 @@ while True: # бесконечный цикл проверки
 
 ### Вывод скрипта при запуске при тестировании:
 ```
-???
+wolin@wolinubuntu:~/netology$ python3 python-ip-yaml-js.py 
+<yandex.ru> - <5.255.255.55>
+<mail.ru> - <94.100.180.200>
+<mail.yandex.ru> - <77.88.21.37>
+[ERROR] <yandex.ru> IP mismatch: <5.255.255.55> <77.88.55.66>
+<yandex.ru> - <77.88.55.66>
+[ERROR] <mail.ru> IP mismatch: <94.100.180.200> <217.69.139.200>
+<mail.ru> - <217.69.139.200>
+<mail.yandex.ru> - <77.88.21.37>
+[ERROR] <yandex.ru> IP mismatch: <77.88.55.66> <77.88.55.70>
+<yandex.ru> - <77.88.55.70>
+[ERROR] <mail.ru> IP mismatch: <217.69.139.200> <94.100.180.201>
+<mail.ru> - <94.100.180.201>
+<mail.yandex.ru> - <77.88.21.37>
+
 ```
 
 ### json-файл(ы), который(е) записал ваш скрипт:
 ```json
-???
+{
+  "yandex.ru": "77.88.55.70",
+  "mail.ru": "94.100.180.201",
+  "mail.yandex.ru": "77.88.21.37"
+}
 ```
 
 ### yml-файл(ы), который(е) записал ваш скрипт:
 ```yaml
-???
+---
+mail.ru: 94.100.180.201
+mail.yandex.ru: 77.88.21.37
+yandex.ru: 77.88.55.70
+...
 ```
 
 ---
