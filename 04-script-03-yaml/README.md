@@ -43,7 +43,21 @@
 
 ### Ваш скрипт:
 ```
-???
+{
+ "info" : "Sample JSON output from our service\\t",
+  "elements" : [
+    {
+     "name" : "first",
+     "type" : "server",
+     "ip" : "71.75.22.1" 
+    },
+    {
+     "name" : "second",
+     "type" : "proxy",
+     "ip" : "71.78.22.43"
+    }
+  ]
+}
 ```
 
 ---
@@ -54,7 +68,32 @@
 
 ### Ваш скрипт:
 ```python
-???
+#!/usr/bin/env python3
+import time
+import socket
+import yaml
+import json
+
+#host_dns_list = ['yandex.ru', 'mail.ru', 'mail.yandex.ru'] брал yandex так как гугл не менял IP
+host_dns_list = ['drive.google.com', 'mail.google.com', 'google.com']
+dict_ip = {}
+dict_old_ip = {}
+while True: # бесконечный цикл проверки
+    for host_dns in host_dns_list:
+        dict_ip.update({host_dns: socket.gethostbyname(host_dns)})
+        if len(dict_old_ip.get(host_dns, 'none')) > 4:
+            if dict_old_ip.get(host_dns) != dict_ip.get(host_dns):
+                
+                with open("servers_ip.json", "w") as fp_json:
+                    json.dump(host_dns, dict_ip.get(host_dns), fp_json, indent=2)
+                with open("servers_ip.yaml", "w") as fp_yaml:
+                    yaml.dump(host_dns, dict_ip.get(host_dns), fp_yaml, explicit_start=True, explicit_end=True)
+
+                print("[ERROR] <"+host_dns+"> IP mismatch: <"+dict_old_ip.get(host_dns)+"> <"+dict_ip.get(host_dns)+">")
+                
+        dict_old_ip = dict_ip.copy()
+        print("<"+host_dns+"> - <"+dict_ip.get(host_dns)+">")
+    time.sleep(2) # задержка между циклами проверки
 ```
 
 ### Вывод скрипта при запуске при тестировании:
