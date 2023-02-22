@@ -74,8 +74,8 @@ import socket
 import yaml
 import json
 
-#host_dns_list = ['yandex.ru', 'mail.ru', 'mail.yandex.ru'] брал yandex так как гугл не менял IP
-host_dns_list = ['drive.google.com', 'mail.google.com', 'google.com']
+host_dns_list = ['yandex.ru', 'mail.ru', 'mail.yandex.ru'] #брал yandex так как гугл не менял IP
+#host_dns_list = ['drive.google.com', 'mail.google.com', 'google.com']
 dict_ip = {}
 dict_old_ip = {}
 while True: # бесконечный цикл проверки
@@ -85,17 +85,17 @@ while True: # бесконечный цикл проверки
             if dict_old_ip.get(host_dns) != dict_ip.get(host_dns):
                 
                 with open("servers_ip.json", "w") as log_json:
-                    json.dump(host_dns, dict_ip.get(host_dns), long_json, indent=2)
+                    json.dump(dict_ip, log_json, indent=2)
                 with open("servers_ip.yaml", "w") as log_yaml:
-                    yaml.dump(host_dns, dict_ip.get(host_dns), long_yaml, explicit_start=True, explicit_end=True)
+                    yaml.dump(dict_ip, log_yaml, explicit_start=True, explicit_end=True)
 
                 print("[ERROR] <"+host_dns+"> IP mismatch: <"+dict_old_ip.get(host_dns)+"> <"+dict_ip.get(host_dns)+">")
                 
         dict_old_ip = dict_ip.copy()
         with open("servers_ip.json", "w") as log_json:
-            json.dump(host_dns, dict_ip.get(host_dns), long_json, indent=2)
+            json.dump(dict_ip, log_json, indent=2)
         with open("servers_ip.yaml", "w") as log_yaml:
-            yaml.dump(host_dns, dict_ip.get(host_dns), long_yaml, explicit_start=True, explicit_end=True)
+            yaml.dump(dict_ip, log_yaml, explicit_start=True, explicit_end=True)
 
         print("<"+host_dns+"> - <"+dict_ip.get(host_dns)+">")
     time.sleep(2) # задержка между циклами проверки
