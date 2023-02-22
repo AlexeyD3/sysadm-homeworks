@@ -84,14 +84,19 @@ while True: # бесконечный цикл проверки
         if len(dict_old_ip.get(host_dns, 'none')) > 4:
             if dict_old_ip.get(host_dns) != dict_ip.get(host_dns):
                 
-                with open("servers_ip.json", "w") as fp_json:
-                    json.dump(host_dns, dict_ip.get(host_dns), fp_json, indent=2)
-                with open("servers_ip.yaml", "w") as fp_yaml:
-                    yaml.dump(host_dns, dict_ip.get(host_dns), fp_yaml, explicit_start=True, explicit_end=True)
+                with open("servers_ip.json", "w") as log_json:
+                    log_json.write(json.dump(host_dns, dict_ip.get(host_dns), indent=2))
+                with open("servers_ip.yaml", "w") as log_yaml:
+                    yaml.dump(host_dns, dict_ip.get(host_dns), explicit_start=True, explicit_end=True)
 
                 print("[ERROR] <"+host_dns+"> IP mismatch: <"+dict_old_ip.get(host_dns)+"> <"+dict_ip.get(host_dns)+">")
                 
         dict_old_ip = dict_ip.copy()
+            with open("servers_ip.json", "w") as log_json:
+                log_json.write(json.dump(host_dns, dict_ip.get(host_dns), indent=2))
+            with open("servers_ip.yaml", "w") as log_yaml:
+                yaml.dump(host_dns, dict_ip.get(host_dns), explicit_start=True, explicit_end=True)
+
         print("<"+host_dns+"> - <"+dict_ip.get(host_dns)+">")
     time.sleep(2) # задержка между циклами проверки
 ```
