@@ -113,10 +113,86 @@ Done testing now all IP addresses (on port 443): 188.114.98.224 188.114.99.224
 ```
 
 5. Установите на Ubuntu ssh сервер, сгенерируйте новый приватный ключ. Скопируйте свой публичный ключ на другой сервер. Подключитесь к серверу по SSH-ключу.
- 
+
+```bash
+wolin@wolinubuntu:~$ apt install openssh-server
+
+wolin@wolinubuntu:~$ sudo systemctl start sshd.service
+
+wolin@wolinubuntu:~$ sudo systemctl enable sshd.service
+
+wolin@wolinubuntu:~$ ssh-keygen
+
+wolin@wolinubuntu:~$ ssh-copy-id alex@192.168.1.140
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+alex@192.168.1.140's password: 
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'alex@192.168.1.140'"
+and check to make sure that only the key(s) you wanted were added.
+
+wolin@wolinubuntu:~$ ssh alex@192.168.1.140
+Welcome to Ubuntu 20.04.5 LTS (GNU/Linux 5.15.0-46-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+0 updates can be applied immediately.
+
+
+The list of available updates is more than a week old.
+To check for new updates run: sudo apt update
+New release '22.04.1 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+Your Hardware Enablement Stack (HWE) is supported until April 2025.
+Last login: Wed Feb 22 16:51:44 2023 from 192.168.1.118
+
+
+```
+
 6. Переименуйте файлы ключей из задания 5. Настройте файл конфигурации SSH клиента, так чтобы вход на удаленный сервер осуществлялся по имени сервера.
 
+```bash
+wolin@wolinubuntu:~/.ssh$ mv id_rsa.pub rsa-netology.pub
+wolin@wolinubuntu:~/.ssh$ mv id_rsa rsa-netology
+wolin@wolinubuntu:~/.ssh$ nano $HOME/.ssh/config                       
+Host netology
+  User alex
+  HostName 192.168.1.140
+  IdentityFile ~/.ssh/rsa-netology
+
+wolin@wolinubuntu:~/.ssh$ ssh netology
+Welcome to Ubuntu 20.04.5 LTS (GNU/Linux 5.15.0-46-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+0 updates can be applied immediately.
+
+
+The list of available updates is more than a week old.
+To check for new updates run: sudo apt update
+New release '22.04.1 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+Your Hardware Enablement Stack (HWE) is supported until April 2025.
+Last login: Wed Feb 22 16:57:58 2023 from 192.168.1.118
+```
+
 7. Соберите дамп трафика утилитой tcpdump в формате pcap, 100 пакетов. Откройте файл pcap в Wireshark.
+
+```bash
+alex@Alex-VirtualBox:~$ sudo tcpdump -c 100 -w netology.pcap                      #собрали дамп на сервере
+wolin@wolinubuntu:~/netology$ scp netology:~/netology.pcap .\netology.pcap        #скопировали дамп на клиента
+```
+
+![wireshark](https://i.ibb.co/Sc6j0XG/Screenshot-from-2023-02-22-20-58-05.png)
+
 
 *В качестве решения приложите: скриншоты, выполняемые команды, комментарии (по необходимости).*
 
