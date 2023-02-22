@@ -35,11 +35,10 @@ Username: rviews
 show ip route x.x.x.x/32
 show bgp x.x.x.x/32
 ```
+<details>
+  <summary>route-views>show ip route 217.70.18.26</summary>
 
 ```bash
-wolin@wolinubuntu:~$ curl ifconfig.me
-217.70.18.26
-wolin@woltelnet route-views.routeviews.orguteviews.org
 route-views>show ip route 217.70.18.26
 Routing entry for 217.70.16.0/20, supernet
   Known via "bgp 6447", distance 20, metric 0
@@ -52,6 +51,8 @@ Routing entry for 217.70.16.0/20, supernet
       Route tag 3267
       MPLS label: none
 ```
+</details>
+
 <details>
   <summary>route-views>show bgp 217.70.18.26</summary>
   
@@ -100,13 +101,42 @@ Paths: (21 available, best #1, table default)
 </details>
 
 2. Создайте dummy0 интерфейс в Ubuntu. Добавьте несколько статических маршрутов. Проверьте таблицу маршрутизации.
+```bash
+wolin@wolinubuntu:~$ sudo modprobe -v dummy numdummies=2
+wolin@wolinubuntu:~$ sudo ip link add dummy0 type dummy
+wolin@wolinubuntu:~$ sudo ip addr add 192.168.1.1/24 dev dummy0
+wolin@wolinubuntu:~$ sudo ip link set dummy0 up
+wolin@wolinubuntu:~$ sudo ip ro add to 192.168.1.140 via 192.168.1.1
+wolin@wolinubuntu:~$ sudo ip ro add to 192.168.1.142 via 192.168.1.1
+wolin@wolinubuntu:~$ route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.1.1     0.0.0.0         UG    600    0        0 wlp5s0
+169.254.0.0     0.0.0.0         255.255.0.0     U     1000   0        0 wlp5s0
+192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 dummy0
+192.168.1.0     0.0.0.0         255.255.255.0   U     600    0        0 wlp5s0
+192.168.1.140   192.168.1.1     255.255.255.255 UGH   0      0        0 dummy0
+192.168.1.142   192.168.1.1     255.255.255.255 UGH   0      0        0 dummy0
+```
 
 3. Проверьте открытые TCP порты в Ubuntu, какие протоколы и приложения используют эти порты? Приведите несколько примеров.
+```bash
+ss -s #статистика по протоколам
+ss -p #приложения и порты
+так же с помощью netstat можно посмотреть какой порт и протокол использует демон ssh:
+wolin@wolinubuntu:~$ sudo netstat -ntlp | grep sshd
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      1012/sshd: /usr/sbi 
+tcp6       0      0 :::22                   :::*                    LISTEN      1012/sshd: /usr/sbi 
+```
 
 4. Проверьте используемые UDP сокеты в Ubuntu, какие протоколы и приложения используют эти порты?
+```bash
+wolin@wolinubuntu:~$ sudo netstat -pu | grep udp
+udp        0      0 192.168.1.118:bootpc    192.168.1.1:bootps      ESTABLISHED 888/NetworkManager 
+```
 
 5. Используя diagrams.net, создайте L3 диаграмму вашей домашней сети или любой другой сети, с которой вы работали. 
-
+https://i.ibb.co/dQ8y9Fv/Screenshot-from-2023-02-22-15-31-59.png
 
 *В качестве решения ответьте на вопросы, опишите, каким образом эти ответы были получены и приложите по неоходимости скриншоты*
 
