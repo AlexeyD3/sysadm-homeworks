@@ -57,10 +57,9 @@ vagrant@vagrant:~$ sudo nano /var/www/example.com/index.html
 
 vagrant@vagrant:~$ sudo apt-get install links
 vagrant@vagrant:~$ links https://127.0.0.1
-
+```
 ![сайт](https://i.ibb.co/YRh76xf/Screenshot-from-2023-02-22-16-23-00.png)
 
-```
 4. Проверьте на TLS уязвимости произвольный сайт в интернете (кроме сайтов МВД, ФСБ, МинОбр, НацБанк, РосКосмос, РосАтом, РосНАНО и любых госкомпаний, объектов КИИ, ВПК ... и тому подобное).
 
 ```bash
