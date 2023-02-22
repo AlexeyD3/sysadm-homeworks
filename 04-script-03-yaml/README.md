@@ -92,10 +92,6 @@ while True: # бесконечный цикл проверки
                 print("[ERROR] <"+host_dns+"> IP mismatch: <"+dict_old_ip.get(host_dns)+"> <"+dict_ip.get(host_dns)+">")
                 
         dict_old_ip = dict_ip.copy()
-        with open("servers_ip.json", "w") as log_json:
-            json.dump(dict_ip, log_json, indent=2)
-        with open("servers_ip.yaml", "w") as log_yaml:
-            yaml.dump(dict_ip, log_yaml, explicit_start=True, explicit_end=True)
 
         print("<"+host_dns+"> - <"+dict_ip.get(host_dns)+">")
     time.sleep(2) # задержка между циклами проверки
